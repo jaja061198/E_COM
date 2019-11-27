@@ -38,7 +38,7 @@
                     </div> <!-- end hero-copy -->
 
                     <div class="hero-image">
-                        <img src="img/macbook-pro-laravel.png" alt="hero image">
+                        <img src="img/CAR.png" alt="hero image">
                     </div> <!-- end hero-image -->
                 </div> <!-- end hero -->
             </header>
