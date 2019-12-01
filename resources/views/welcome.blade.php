@@ -1,3 +1,8 @@
+@php
+
+use App\Http\Models\Item;
+use App\Helper\Helper;
+@endphp
 <!doctype html>
 <html lang="{{ app()->getLocale() }}">
     <head>
@@ -33,7 +38,7 @@
                         <h1>Welcome to Oculus Shop</h1>
                         <p>Includes multiple products, categories, a shopping cart and a checkout system with Stripe integration.</p>
                         <div class="hero-buttons">
-                            <a href="https://www.youtube.com/playlist?list=PLEhEHUEU3x5oPTli631ZX9cxl6cU_sDaR" class="button button-white">About Us</a>
+                            <a href="#" class="button button-white">About Us</a>
                         </div>
                     </div> <!-- end hero-copy -->
 
@@ -46,14 +51,14 @@
             <div class="featured-section">
 
                 <div class="container">
-                    <h1 class="text-center">Laravel Ecommerce</h1>
+                    <h1 class="text-center">Oculus Shop</h1>
 
-                    <p class="section-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore vitae nisi, consequuntur illum dolores cumque pariatur quis provident deleniti nesciunt officia est reprehenderit sunt aliquid possimus temporibus enim eum hic lorem.</p>
+                    {{-- <p class="section-description">Choose from our wide range of CAR components.</p> --}}
 
-                    <div class="text-center button-container">
+                   {{--  <div class="text-center button-container">
                         <a href="#" class="button">Featured</a>
                         <a href="#" class="button">On Sale</a>
-                    </div>
+                    </div> --}}
 
                     {{-- <div class="tabs">
                         <div class="tab">
@@ -65,6 +70,16 @@
                     </div> --}}
 
                     <div class="products text-center">
+
+                        
+
+                        @foreach (Item::getItems() as $key => $value)
+                            <div class="product">
+                                <a href=""><img src="img/CAR.png" alt="product"></a>
+                                <a href=""><div class="product-name">{{ $value['ITEM_DESC'] }}</div></a>
+                                <div class="product-price">PHP {{ Helper::numberFormat($value['STANDARD_COST']) }}</div>
+                            </div>
+                        @endforeach
                         {{-- @foreach ($products as $product)
                             <div class="product">
                                 <a href="{{ route('shop.show', $product->slug) }}"><img src="{{ productImage($product->image) }}" alt="product"></a>
@@ -76,7 +91,7 @@
                     </div> <!-- end products -->
 
                     <div class="text-center button-container">
-                        <a href="" class="button">View more products</a>
+                        <a href="{{ route('shop.index') }}" class="button">View more products</a>
                     </div>
 
                 </div> <!-- end container -->

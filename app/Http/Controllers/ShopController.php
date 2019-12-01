@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Product;
 use App\Category;
 use Illuminate\Http\Request;
+use App\Http\Models\ItemType as ItemTypeModel;
+use App\Http\Models\Item as ItemModel;
 
 class ShopController extends Controller
 {
@@ -15,6 +17,11 @@ class ShopController extends Controller
      */
     public function index()
     {
+        return view('shop')
+        ->with([
+            'types' => ItemTypeModel::all(),
+            'items' => ItemModel::all(),
+        ]);
         $pagination = 9;
         $categories = Category::all();
 

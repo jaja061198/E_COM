@@ -1,3 +1,6 @@
+@php
+    use App\Helper\Helper;
+@endphp
 @extends('layout')
 
 @section('title', 'Products')
@@ -34,30 +37,36 @@
 
     <div class="products-section container">
         <div class="sidebar">
-            <h3>By Category</h3>
+            <h3>By Type</h3>
             <ul>
-                @foreach ($categories as $category)
+                {{-- @foreach ($categories as $category)
                     <li class="{{ setActiveCategory($category->slug) }}"><a href="{{ route('shop.index', ['category' => $category->slug]) }}">{{ $category->name }}</a></li>
+                @endforeach --}}
+                @foreach ($types as $category)
+                    <li class=""><a href="">{{ $category->ITEM_TYPE_DESC }}</a></li>
                 @endforeach
             </ul>
         </div> <!-- end sidebar -->
         <div>
             <div class="products-header">
-                <h1 class="stylish-heading">{{ $categoryName }}</h1>
+                <h1 class="stylish-heading">Product List</h1>
                 <div>
                     <strong>Price: </strong>
-                    <a href="{{ route('shop.index', ['category'=> request()->category, 'sort' => 'low_high']) }}">Low to High</a> |
-                    <a href="{{ route('shop.index', ['category'=> request()->category, 'sort' => 'high_low']) }}">High to Low</a>
+                    {{-- <a href="{{ route('shop.index', ['category'=> request()->category, 'sort' => 'low_high']) }}">Low to High</a> |
+                    <a href="{{ route('shop.index', ['category'=> request()->category, 'sort' => 'high_low']) }}">High to Low</a> --}}
+
+                    <a href="">Low to High</a> |
+                    <a href="">High to Low</a>
 
                 </div>
             </div>
 
             <div class="products text-center">
-                @forelse ($products as $product)
+                @forelse ($items as $product)
                     <div class="product">
-                        <a href="{{ route('shop.show', $product->slug) }}"><img src="{{ productImage($product->image) }}" alt="product"></a>
-                        <a href="{{ route('shop.show', $product->slug) }}"><div class="product-name">{{ $product->name }}</div></a>
-                        <div class="product-price">{{ $product->presentPrice() }}</div>
+                        <a href=""><img src="img/CAR.png" alt="product"></a>
+                        <a href=""><div class="product-name">{{ $product->ITEM_DESC }}</div></a>
+                        <div class="product-price">PHP {{ Helper::numberFormat($product['STANDARD_COST']) }}</div>
                     </div>
                 @empty
                     <div style="text-align: left">No items found</div>
@@ -65,7 +74,7 @@
             </div> <!-- end products -->
 
             <div class="spacer"></div>
-            {{ $products->appends(request()->input())->links() }}
+            {{-- {{ $products->appends(request()->input())->links() }} --}}
         </div>
     </div>
 
