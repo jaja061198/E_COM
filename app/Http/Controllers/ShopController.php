@@ -58,6 +58,15 @@ class ShopController extends Controller
      */
     public function show($slug)
     {
+        $products = ItemModel::where('ITEM_CODE','=',$slug)->first();
+
+        $mightAlsoLike = ItemModel::where('ITEM_TYPE','=',$products->ITEM_TYPE)->where('ITEM_CODE','!=',$products->ITEM_CODE)->get();
+
+        return view('product')->with([
+            'product' => $products,
+
+            'mightAlsoLike' => $mightAlsoLike,
+        ]);
         $product = Product::where('slug', $slug)->firstOrFail();
         $mightAlsoLike = Product::where('slug', '!=', $slug)->mightAlsoLike()->get();
 

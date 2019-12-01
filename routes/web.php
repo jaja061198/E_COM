@@ -22,7 +22,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 // Route::get('/', 'LandingPageController@index')->name('landing-page');
 Route::get('/shop', 'ShopController@index')->name('shop.index');
-// Route::get('/shop/{product}', 'ShopController@show')->name('shop.show');
+Route::get('/shop/{product}', 'ShopController@show')->name('shop.show');
 // Route::get('/cart', 'CartController@index')->name('cart.index');
 // Route::post('/cart/{product}', 'CartController@store')->name('cart.store');
 // Route::patch('/cart/{product}', 'CartController@update')->name('cart.update');

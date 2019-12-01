@@ -64,8 +64,8 @@
             <div class="products text-center">
                 @forelse ($items as $product)
                     <div class="product">
-                        <a href=""><img src="img/CAR.png" alt="product"></a>
-                        <a href=""><div class="product-name">{{ $product->ITEM_DESC }}</div></a>
+                        <a href=""><img src="http://localhost:8000/{{ $product['IMAGE'] }}" alt="product"></a>
+                        <a href="{{ route('shop.show',['products' => $product->ITEM_CODE]) }}"><div class="product-name">{{ $product->ITEM_DESC }}</div></a>
                         <div class="product-price">PHP {{ Helper::numberFormat($product['STANDARD_COST']) }}</div>
                     </div>
                 @empty

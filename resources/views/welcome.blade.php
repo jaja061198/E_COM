@@ -75,8 +75,9 @@ use App\Helper\Helper;
 
                         @foreach (Item::getItems() as $key => $value)
                             <div class="product">
-                                <a href=""><img src="img/CAR.png" alt="product"></a>
-                                <a href=""><div class="product-name">{{ $value['ITEM_DESC'] }}</div></a>
+                                <a href="{{ route('shop.show',['products' => $value->ITEM_CODE]) }}"><img src="
+                                    http://localhost:8000/{{ $value['IMAGE'] }}" alt="product"></a>
+                                <a href="{{ route('shop.show',['products' => $value->ITEM_CODE]) }}"><div class="product-name">{{ $value['ITEM_DESC'] }}</div></a>
                                 <div class="product-price">PHP {{ Helper::numberFormat($value['STANDARD_COST']) }}</div>
                             </div>
                         @endforeach
