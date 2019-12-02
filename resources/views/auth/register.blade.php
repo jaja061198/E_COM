@@ -25,7 +25,9 @@
             <form method="POST" action="{{ route('register') }}">
                 {{ csrf_field() }}
 
-                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" placeholder="Name" required autofocus>
+                <input id="username" type="text" class="form-control" name="username" value="{{ old('username') }}" placeholder="Username" required autofocus>
+
+                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" placeholder="Name" required>
 
                 <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="Email" required>
 
@@ -51,10 +53,10 @@
             <p><strong>Save time now.</strong></p>
             <p>Creating an account will allow you to checkout faster in the future, have easy access to order history and customize your experience to suit your preferences.</p>
 
-            &nbsp;
+            {{-- &nbsp;
             <div class="spacer"></div>
             <p><strong>Loyalty Program</strong></p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt debitis, amet magnam accusamus nisi distinctio eveniet ullam. Facere, cumque architecto.</p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt debitis, amet magnam accusamus nisi distinctio eveniet ullam. Facere, cumque architecto.</p> --}}
         </div>
     </div> <!-- end auth-pages -->
 </div>

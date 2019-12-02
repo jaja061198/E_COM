@@ -9,7 +9,7 @@
                 <a href="{{ route('shop.show', $product->ITEM_CODE) }}" class="might-like-product">
                     <img src="http://localhost:8000/{{ $product['IMAGE'] }}" alt="product">
                     <div class="might-like-product-name">{{ $product->ITEM_DESC }}</div>
-                    <div class="might-like-product-price">PHP {{ Helper::numberFormat($product['STANDARD_COST']) }}</div>
+                    <div class="might-like-product-price">PHP {{ Helper::numberFormat($product['STANDARD_PRICE']) }}</div>
                 </a>
             @endforeach
 

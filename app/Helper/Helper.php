@@ -2,6 +2,8 @@
 
 use Auth;
 use DB;
+use App\Http\Models\Cart as CartModel;
+use App\Http\Models\Item as ItemModel;
 
 class Helper
 {
@@ -163,5 +165,19 @@ class Helper
         return ItemModel::whereRaw('QUANTITY < MIN_LEVEL')->count();
     }
     
+
+    public static function getImageBase()
+    {
+        return DB::table('image_base')->select('link')->first();
+    }
+
+    public static function getCartCount()
+    {
+        return CartModel::where('user_id','=',Auth::user()->id)->sum('quantity');
+    }
     
+    public static function getItemDetails($code)
+    {
+        return ItemModel::where('ITEM_CODE','=',$code)->first();
+    }
 }

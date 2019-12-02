@@ -25,7 +25,7 @@
             <form action="{{ route('login') }}" method="POST">
                 {{ csrf_field() }}
 
-                <input type="email" id="email" name="email" value="{{ old('email') }}" placeholder="Email" required autofocus>
+                <input type="text" id="username" name="username" value="{{ old('username') }}" placeholder="Username" required autofocus>
                 <input type="password" id="password" name="password" value="{{ old('password') }}" placeholder="Password" required>
 
                 <div class="login-container">
@@ -45,11 +45,11 @@
         </div>
 
         <div class="auth-right">
-            <h2>New Customer</h2>
+            {{-- <h2>New Customer</h2>
             <div class="spacer"></div>
             <p><strong>Save time now.</strong></p>
             <p>You don't need an account to checkout.</p>
-            <div class="spacer"></div>
+            <div class="spacer"></div> --}}
             {{-- <a href="{{ route('guestCheckout.index') }}" class="auth-button-hollow">Continue as Guest</a> --}}
             <div class="spacer"></div>
             &nbsp;

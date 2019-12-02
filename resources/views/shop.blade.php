@@ -64,9 +64,9 @@
             <div class="products text-center">
                 @forelse ($items as $product)
                     <div class="product">
-                        <a href=""><img src="http://localhost:8000/{{ $product['IMAGE'] }}" alt="product"></a>
+                        <a href="{{ route('shop.show',['products' => $product->ITEM_CODE]) }}"><img src="{{ Helper::getImageBase()->link }}{{ $product['IMAGE'] }}" alt="product"></a>
                         <a href="{{ route('shop.show',['products' => $product->ITEM_CODE]) }}"><div class="product-name">{{ $product->ITEM_DESC }}</div></a>
-                        <div class="product-price">PHP {{ Helper::numberFormat($product['STANDARD_COST']) }}</div>
+                        <div class="product-price">PHP {{ Helper::numberFormat($product['STANDARD_PRICE']) }}</div>
                     </div>
                 @empty
                     <div style="text-align: left">No items found</div>

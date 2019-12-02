@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\Product;
 use Illuminate\Http\Request;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Models\ItemType as ItemTypeModel;
+use App\Http\Models\Item as ItemModel;
+use App\Http\Models\Cart as CartModel;
 
 class CartController extends Controller
 {
@@ -16,14 +20,16 @@ class CartController extends Controller
      */
     public function index()
     {
-        $mightAlsoLike = Product::mightAlsoLike()->get();
+        $mightAlsoLike = ItemModel::all()->random(4);
+
+        $cart_count = CartModel::where('user_id','=',Auth::user()->id)->get();
+
+        $cart_counter = CartModel::where('user_id','=',Auth::user()->id)->sum('quantity');
 
         return view('cart')->with([
             'mightAlsoLike' => $mightAlsoLike,
-            'discount' => getNumbers()->get('discount'),
-            'newSubtotal' => getNumbers()->get('newSubtotal'),
-            'newTax' => getNumbers()->get('newTax'),
-            'newTotal' => getNumbers()->get('newTotal'),
+            'cart_items' => $cart_count,
+            'counter' => $cart_counter,
         ]);
     }
 
@@ -33,18 +39,21 @@ class CartController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function store(Product $product)
-    {
-        $duplicates = Cart::search(function ($cartItem, $rowId) use ($product) {
-            return $cartItem->id === $product->id;
-        });
+    public function store(Request $request)
+    {   
+        $duplicates = CartModel::where('item_code','=',$request->input('item'))->where('user_id','=',Auth::user()->id)->count();
 
-        if ($duplicates->isNotEmpty()) {
+        if ($duplicates > 0) {
             return redirect()->route('cart.index')->with('success_message', 'Item is already in your cart!');
         }
 
-        Cart::add($product->id, $product->name, 1, $product->price)
-            ->associate('App\Product');
+        $cart = [
+            'user_id' => Auth::user()->id,
+            'item_code' => $request->input('item'),
+            'quantity' => 1,
+        ];
+
+        CartModel::insert($cart);
 
         return redirect()->route('cart.index')->with('success_message', 'Item was added to your cart!');
     }
@@ -56,25 +65,36 @@ class CartController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'quantity' => 'required|numeric|between:1,5'
-        ]);
+        foreach ($request->input('get_code') as $key => $value) 
+        {
+            $quantity = [
+                'quantity' => $request->input('quantity')[$key],
+            ];
 
-        if ($validator->fails()) {
-            session()->flash('errors', collect(['Quantity must be between 1 and 5.']));
-            return response()->json(['success' => false], 400);
+            CartModel::where('item_code','=',$request->input('get_code')[$key])
+                    ->where('user_id','=',Auth::user()->id)
+                    ->update($quantity);
         }
+        // return $request->all();
+        // $validator = Validator::make($request->all(), [
+        //     'quantity' => 'required|numeric|between:1,5'
+        // ]);
 
-        if ($request->quantity > $request->productQuantity) {
-            session()->flash('errors', collect(['We currently do not have enough items in stock.']));
-            return response()->json(['success' => false], 400);
-        }
+        // if ($validator->fails()) {
+        //     session()->flash('errors', collect(['Quantity must be between 1 and 5.']));
+        //     return response()->json(['success' => false], 400);
+        // }
 
-        Cart::update($id, $request->quantity);
-        session()->flash('success_message', 'Quantity was updated successfully!');
-        return response()->json(['success' => true]);
+        // if ($request->quantity > $request->productQuantity) {
+        //     session()->flash('errors', collect(['We currently do not have enough items in stock.']));
+        //     return response()->json(['success' => false], 400);
+        // }
+
+        // Cart::update($id, $request->quantity);
+        session()->flash('success_message', 'Cart was updated successfully!');
+        return back();
     }
 
     /**
@@ -85,7 +105,7 @@ class CartController extends Controller
      */
     public function destroy($id)
     {
-        Cart::remove($id);
+        CartModel::where('item_code','=',$id)->where('user_id','=',Auth::user()->id)->delete();
 
         return back()->with('success_message', 'Item has been removed!');
     }

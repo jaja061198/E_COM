@@ -41,11 +41,11 @@
     <div class="product-section container">
         <div>
             <div class="product-section-image">
-                <img src="http://localhost:8000/{{ $product->IMAGE }}" alt="product" class="active" id="currentImage">
+                <img src="{{ Helper::getImageBase()->link }}{{ $product->IMAGE }}" alt="product" class="active" id="currentImage">
             </div>
             <div class="product-section-images">
                 <div class="product-section-thumbnail selected">
-                    <img src="http://localhost:8000/{{ $product->IMAGE }}" alt="product">
+                    <img src="{{ Helper::getImageBase()->link }}{{ $product->IMAGE }}" alt="product">
                 </div>
 
                 {{-- @if ($product->IMAGE)
@@ -67,7 +67,7 @@
                     <div class="badge badge-danger">Not available</div>
                 @endif
             </div>
-            <div class="product-section-price">PHP {{ Helper::numberFormat($product['STANDARD_COST']) }}</div>
+            <div class="product-section-price">PHP {{ Helper::numberFormat($product['STANDARD_PRICE']) }}</div>
 
             <p>
                 {{ $product->DESCRIPTION }}
@@ -75,11 +75,18 @@
 
             <p>&nbsp;</p>
 
-            @if ($product->QUANTITY > 0)
-                <form action="" method="POST">
-                    {{ csrf_field() }}
-                    <button type="submit" class="button button-plain">Add to Cart</button>
-                </form>
+            @if(Auth::check())
+
+                @if ($product->QUANTITY > 0)
+                    <form action="{{ route('cart.store') }}" method="POST">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="item" value="{{ $product->ITEM_CODE }}">
+                        <button type="submit" class="button button-plain">Add to Cart</button>
+                    </form>
+                @endif
+
+            @else
+                    <a href="{{ route('login') }}"><button type="button" class="button button-plain">Please Login to Continue</button></a>
             @endif
         </div>
     </div> <!-- end product-section -->

@@ -37,7 +37,8 @@
 
             <ul>
               <li class="active"><a href="{{ route('users.edit') }}">My Profile</a></li>
-              <li><a href="{{ route('orders.index') }}">My Orders</a></li>
+              <li><a href="{{ route('orders.index') }}">Pending Orders</a></li>
+              <li><a href="{{ route('orders.index') }}">For Payment</a></li>
             </ul>
         </div> <!-- end sidebar -->
         <div class="my-profile">
@@ -47,8 +48,8 @@
 
             <div>
                 <form action="{{ route('users.update') }}" method="POST">
-                    @method('patch')
-                    @csrf
+                    {{-- @method('patch') --}}
+                    {{ csrf_field() }}
                     <div class="form-control">
                         <input id="name" type="text" name="name" value="{{ old('name', $user->name) }}" placeholder="Name" required>
                     </div>
