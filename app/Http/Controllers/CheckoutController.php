@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
+use App\Helper\Helper;
 use App\Order;
 use App\Product;
+use Carbon\Carbon;
 use App\OrderProduct;
 use App\Mail\OrderPlaced;
 use Illuminate\Http\Request;
@@ -12,6 +15,9 @@ use App\Http\Requests\CheckoutRequest;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Cartalyst\Stripe\Laravel\Facades\Stripe;
 use Cartalyst\Stripe\Exception\CardErrorException;
+use App\Http\Models\OrderHeader as OrderHeaderModel;
+use App\Http\Models\OrderDetail as OrderDetailModel;
+use App\Http\Models\Cart as CartModel;
 
 class CheckoutController extends Controller
 {
@@ -22,34 +28,67 @@ class CheckoutController extends Controller
      */
     public function index()
     {
-        if (Cart::instance('default')->count() == 0) {
-            return redirect()->route('shop.index');
+        $or = $this->generateCode();
+        $header = [
+            'order_no' => $or,
+            'user' => Auth::user()->id,
+            'status' => 0,
+            'date_ordered' => date('Y-m-d'),
+        ];
+
+
+        OrderHeaderModel::insert($header);
+
+        //get details
+        
+        $get_cart_items = CartModel::where('user_id','=',Auth::user()->id)->get();
+
+        foreach ($get_cart_items as $key => $value) {
+            $details = [
+                'order_id' => $or,
+                'line_no' => $key + 1,
+                'item_code' => $value['item_code'],
+                'item_price' => Helper::getItemDetails($value['item_code'])->STANDARD_PRICE,
+                'quantity' => $value['quantity'],
+            ];
+
+            OrderDetailModel::insert($details);
         }
 
-        if (auth()->user() && request()->is('guestCheckout')) {
-            return redirect()->route('checkout.index');
-        }
+        CartModel::where('user_id','=',Auth::user()->id)->delete();
 
-        $gateway = new \Braintree\Gateway([
-            'environment' => config('services.braintree.environment'),
-            'merchantId' => config('services.braintree.merchantId'),
-            'publicKey' => config('services.braintree.publicKey'),
-            'privateKey' => config('services.braintree.privateKey')
-        ]);
+        return back();
+    }
 
-        try {
-            $paypalToken = $gateway->ClientToken()->generate();
-        } catch (\Exception $e) {
-            $paypalToken = null;
-        }
+    public function generateCode()
+    {
+            $data_count = OrderHeaderModel::count();
 
-        return view('checkout')->with([
-            'paypalToken' => $paypalToken,
-            'discount' => getNumbers()->get('discount'),
-            'newSubtotal' => getNumbers()->get('newSubtotal'),
-            'newTax' => getNumbers()->get('newTax'),
-            'newTotal' => getNumbers()->get('newTotal'),
-        ]);
+            if ($data_count == 0) 
+            {
+                $slots = "00000";
+
+                $generated_code = 'OR#00000';
+
+                return $generated_code;
+            }
+
+            $slots = "00000";
+
+            $padding = strlen($slots) - $data_count;
+
+            $padded_code = substr($slots, -( 5 - strlen($data_count)));
+
+            if(strlen($data_count) >= 5)
+            {
+                $generated_code = 'OR#'.$data_count;
+
+                return $generated_code;
+            }
+
+            $generated_code = 'OR#'.$padded_code.$data_count;
+
+            return $generated_code;
     }
 
 

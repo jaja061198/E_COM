@@ -68,6 +68,8 @@
                                     @endfor
                                 </select> --}}
                                 <input type="number" name="quantity[]" min="1" value="{{ $item->quantity }}" style="width: 50px;">
+                                 <input type="hidden" name="old_quantity[]" min="1" value="{{ $item->quantity }}" style="width: 50px;">
+                                <input type="hidden" name="price[]" value="{{ Helper::getItemDetails($item->item_code)->STANDARD_PRICE }}">
                             </div>
                             <div>PHP {{ Helper::numberFormat(Helper::getItemDetails($item->item_code)->STANDARD_PRICE * $item->quantity) }}</div>
                             @php
@@ -112,7 +114,7 @@
                 <div class="cart-buttons">
                     <a href="{{ route('shop.index') }}" class="button">Continue Shopping</a>
                     <button type="submit" class="button">Update Cart</button>
-                    <a href="{{ route('checkout.index') }}" class="button-primary">Proceed to Checkout</a>
+                    <a href="{{ route('checkout.index') }}" class="button-primary">Submit Order</a>
                 </div>
 
                 </div> <!-- end cart-table -->
