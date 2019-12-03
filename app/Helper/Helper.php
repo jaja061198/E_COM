@@ -4,6 +4,9 @@ use Auth;
 use DB;
 use App\Http\Models\Cart as CartModel;
 use App\Http\Models\Item as ItemModel;
+use App\Http\Models\OrderHeader as OrderHeaderModel;
+use App\Http\Models\OrderDetail as OrderDetailModel;
+use App\User as UserModel; 
 
 class Helper
 {
@@ -179,5 +182,29 @@ class Helper
     public static function getItemDetails($code)
     {
         return ItemModel::where('ITEM_CODE','=',$code)->first();
+    }
+
+    public static function getOrderQuant($order_id)
+    {
+        return OrderDetailModel::where('order_id','=',$order_id)->sum('quantity');
+    }
+
+    public static function sumOfOrder($order_id)
+    {
+        $details = OrderDetailModel::where('order_id','=',$order_id)->get();
+
+        $total = 0;
+
+        foreach ($details as $key => $value) 
+        {
+            $total+= self::getItemDetails($value['item_code'])->STANDARD_PRICE * $value['quantity'];
+        }
+
+        return $total;
+    }
+
+    public static function getUserDetails($user_id)
+    {
+        return UserModel::where('id','=',$user_id)->first();
     }
 }
