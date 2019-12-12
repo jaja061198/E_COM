@@ -4,6 +4,8 @@ use Auth;
 use DB;
 use App\Http\Models\Cart as CartModel;
 use App\Http\Models\Item as ItemModel;
+use App\Http\Models\WelcomePage as WelcomePageModel;
+use App\Http\Models\Footer as FooterModel;
 
 class Helper
 {
@@ -180,4 +182,17 @@ class Helper
     {
         return ItemModel::where('ITEM_CODE','=',$code)->first();
     }
+
+    public static function getHeaderText()
+    {
+        return WelcomePageModel::first();
+    }
+
+    public static function getFooterText()
+    {
+        return FooterModel::first();
+    }
+
+
+
 }

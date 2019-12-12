@@ -35,15 +35,15 @@ use App\Helper\Helper;
                 </div> <!-- end top-nav -->
                 <div class="hero container">
                     <div class="hero-copy">
-                        <h1>Welcome to Oculus Shop</h1>
-                        <p>Includes multiple products, categories, a shopping cart and a checkout system with Stripe integration.</p>
+                        <h1>{{ Helper::getHeaderText()->welcome_greet }}</h1>
+                        <p>{{ Helper::getHeaderText()->welcome_msg }}</p>
                         <div class="hero-buttons">
                             <a href="#" class="button button-white">About Us</a>
                         </div>
                     </div> <!-- end hero-copy -->
 
                     <div class="hero-image">
-                        <img src="img/CAR.png" alt="hero image">
+                        <img src="{{ Helper::getImageBase()->link }}{{ Helper::getHeaderText()->img }}" alt="hero image">
                     </div> <!-- end hero-image -->
                 </div> <!-- end hero -->
             </header>
