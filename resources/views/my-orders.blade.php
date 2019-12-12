@@ -1,3 +1,6 @@
+@php
+    use App\Helper\Helper;
+@endphp
 @extends('layout')
 
 @section('title', 'My Orders')
@@ -38,6 +41,7 @@
             <ul>
               <li><a href="{{ route('users.edit') }}">My Profile</a></li>
               <li class="active"><a href="{{ route('orders.index') }}">My Orders</a></li>
+              <li><a href="{{ route('orders.index') }}">For Payment</a></li>
             </ul>
         </div> <!-- end sidebar -->
         <div class="my-profile">
@@ -51,40 +55,41 @@
                     <div class="order-header">
                         <div class="order-header-items">
                             <div>
-                                <div class="uppercase font-bold">Order Placed</div>
-                                <div>{{ presentDate($order->created_at) }}</div>
+                                <div class="uppercase font-bold">No. of items</div>
+                                <div>{{ Helper::getOrderQuant($order['order_no']) }}</div>
                             </div>
                             <div>
                                 <div class="uppercase font-bold">Order ID</div>
-                                <div>{{ $order->id }}</div>
+                                <div>{{ $order['order_no'] }}</div>
                             </div><div>
                                 <div class="uppercase font-bold">Total</div>
-                                <div>{{ presentPrice($order->billing_total) }}</div>
+                                <div>PHP {{ Helper::numberFormat(Helper::sumOfOrder($order['order_no'])) }}</div>
                             </div>
                         </div>
                         <div>
                             <div class="order-header-items">
-                                <div><a href="{{ route('orders.show', $order->id) }}">Order Details</a></div>
+                                <div><a href="{{ route('orders.show',['order' => str_replace("#","w",$order->order_no)]) }}">Order Details</a></div>
                                 <div>|</div>
-                                <div><a href="#">Invoice</a></div>
+                                <div><b style="color:red;">PENDING</b></div>
+                                {{-- <div><a href="#">Invoice</a></div> --}}
                             </div>
                         </div>
                     </div>
-                    <div class="order-products">
+                    {{-- <div class="order-products">
                         @foreach ($order->products as $product)
                             <div class="order-product-item">
-                                <div><img src="{{ asset($product->image) }}" alt="Product Image"></div>
+                                <div><img src="" alt="Product Image"></div>
                                 <div>
                                     <div>
-                                        <a href="{{ route('shop.show', $product->slug) }}">{{ $product->name }}</a>
+                                        <a href="w">ww</a>
                                     </div>
-                                    <div>{{ presentPrice($product->price) }}</div>
-                                    <div>Quantity: {{ $product->pivot->quantity }}</div>
+                                    <div>#</div>
+                                    <div>Quantity: #</div>
                                 </div>
                             </div>
                         @endforeach
 
-                    </div>
+                    </div> --}}
                 </div> <!-- end order-container -->
                 @endforeach
             </div>

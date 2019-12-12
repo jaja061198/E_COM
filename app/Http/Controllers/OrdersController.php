@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\Order;
 use Illuminate\Http\Request;
+use App\Http\Models\OrderHeader as OrderHeaderModel;
+use App\Http\Models\OrderDetail as OrderDetailModel;
+use App\Http\Models\Cart as CartModel;
 
 class OrdersController extends Controller
 {
@@ -16,9 +20,11 @@ class OrdersController extends Controller
     {
         // $orders = auth()->user()->orders; // n + 1 issues
 
-        $orders = auth()->user()->orders()->with('products')->get(); // fix n + 1 issues
+        $orders = OrderHeaderModel::where('user','=',Auth::user()->id)->where('status','=',0)->get();
 
-        return view('my-orders')->with('orders', $orders);
+        return view('my-orders')->with([
+            'orders' => $orders,
+        ]);
     }
 
     /**
@@ -48,18 +54,33 @@ class OrdersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Order $order)
-    {
-        if (auth()->id() !== $order->user_id) {
-            return back()->withErrors('You do not have access to this!');
+    public function show($order)
+    {   
+
+        $order = OrderHeaderModel::where('order_no','=',str_replace('w', '#', $order))->first();
+
+        $products = OrderDetailModel::where('order_id','=',$order->order_no)->get();
+
+        if (Auth::user()->id != $order->user) 
+        {
+             return back()->withErrors('You do not have access to this!');
         }
 
-        $products = $order->products;
 
         return view('my-order')->with([
             'order' => $order,
             'products' => $products,
         ]);
+        // if (auth()->id() !== $order->user_id) {
+        //     return back()->withErrors('You do not have access to this!');
+        // }
+
+        // $products = $order->products;
+
+        // return view('my-order')->with([
+        //     'order' => $order,
+        //     'products' => $products,
+        // ]);
     }
 
     /**

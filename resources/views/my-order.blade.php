@@ -1,3 +1,6 @@
+@php
+    use App\Helper\Helper;
+@endphp
 @extends('layout')
 
 @section('title', 'My Order')
@@ -38,11 +41,12 @@
             <ul>
               <li><a href="{{ route('users.edit') }}">My Profile</a></li>
               <li class="active"><a href="{{ route('orders.index') }}">My Orders</a></li>
+              <li><a href="{{ route('orders.index') }}">For Payment</a></li>
             </ul>
         </div> <!-- end sidebar -->
         <div class="my-profile">
             <div class="products-header">
-                <h1 class="stylish-heading">Order ID: {{ $order->id }}</h1>
+                <h1 class="stylish-heading">Order ID: {{ $order->order_no }}</h1>
             </div>
 
             <div>
@@ -51,19 +55,19 @@
                         <div class="order-header-items">
                             <div>
                                 <div class="uppercase font-bold">Order Placed</div>
-                                <div>{{ presentDate($order->created_at) }}</div>
+                                <div>{{ $order->date_ordered }}</div>
                             </div>
                             <div>
                                 <div class="uppercase font-bold">Order ID</div>
-                                <div>{{ $order->id }}</div>
+                                <div>{{ $order->order_no }}</div>
                             </div><div>
                                 <div class="uppercase font-bold">Total</div>
-                                <div>{{ presentPrice($order->billing_total) }}</div>
+                                <div>PHP {{ Helper::numberFormat(Helper::sumOfOrder($order->order_no) + (Helper::sumOfOrder($order->order_no) * .12)) }}</div>
                             </div>
                         </div>
                         <div>
                             <div class="order-header-items">
-                                <div><a href="#">Invoice</a></div>
+                                <div><a href="#" style="color:red;">PENDING</a></div>
                             </div>
                         </div>
                     </div>
@@ -72,27 +76,27 @@
                             <tbody>
                                 <tr>
                                     <td>Name</td>
-                                    <td>{{ $order->user->name }}</td>
+                                    <td>{{ Helper::getUserDetails($order->user)->name }}</td>
                                 </tr>
-                                <tr>
+                                {{-- <tr>
                                     <td>Address</td>
-                                    <td>{{ $order->billing_address }}</td>
+                                    <td>detailll</td>
                                 </tr>
                                 <tr>
                                     <td>City</td>
-                                    <td>{{ $order->billing_city }}</td>
-                                </tr>
+                                    <td>cityzxczxc</td>
+                                </tr> --}}
                                 <tr>
                                     <td>Subtotal</td>
-                                    <td>{{ presentPrice($order->billing_subtotal) }}</td>
+                                    <td>PHP {{ Helper::numberFormat(Helper::sumOfOrder($order->order_no)) }}</td>
                                 </tr>
                                 <tr>
                                     <td>Tax</td>
-                                    <td>{{ presentPrice($order->billing_tax) }}</td>
+                                    <td>PHP {{ Helper::numberFormat(Helper::sumOfOrder($order->order_no) * .12) }}</td>
                                 </tr>
                                 <tr>
                                     <td>Total</td>
-                                    <td>{{ presentPrice($order->billing_total) }}</td>
+                                    <td>PHP {{ Helper::numberFormat(Helper::sumOfOrder($order->order_no) + (Helper::sumOfOrder($order->order_no) * .12)) }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -111,16 +115,18 @@
                     </div>
                     <div class="order-products">
                         @foreach ($products as $product)
+
                             <div class="order-product-item">
-                                <div><img src="{{ asset($product->image) }}" alt="Product Image"></div>
+                                <div><img src="{{ Helper::getImageBase()->link }}{{ Helper::getItemDetails($product->item_code)->IMAGE }}" alt="Product Image"></div>
                                 <div>
                                     <div>
-                                        <a href="{{ route('shop.show', $product->slug) }}">{{ $product->name }}</a>
+                                        <a href="{{ route('shop.show', $product->item_code) }}">{{ Helper::getItemDetails($product->item_code)->ITEM_DESC }}</a>
                                     </div>
-                                    <div>{{ presentPrice($product->price) }}</div>
-                                    <div>Quantity: {{ $product->pivot->quantity }}</div>
+                                    <div>{{ Helper::numberFormat(Helper::getItemDetails($product->item_code)->STANDARD_PRICE) }}</div>
+                                    <div>Quantity: {{ $product->quantity }}</div>
                                 </div>
                             </div>
+
                         @endforeach
 
                     </div>
@@ -128,6 +134,10 @@
             </div>
 
             <div class="spacer"></div>
+
+            <div class="cart-buttons">
+                    <a href="{{ route('shop.index') }}" class="button">Cancel Order</a>
+            </div>
         </div>
     </div>
 
