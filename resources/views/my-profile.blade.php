@@ -52,9 +52,11 @@
                     {{ csrf_field() }}
                     <div class="form-control">
                         <input id="name" type="text" name="name" value="{{ old('name', $user->name) }}" placeholder="Name" required>
+                        <input type="hidden" name="get_id" value="{{ $user->id }}">
                     </div>
                     <div class="form-control">
                         <input id="email" type="email" name="email" value="{{ old('email', $user->email) }}" placeholder="Email" required>
+                        <input type="hidden" name="get_email" value="{{ $user->email }}">
                     </div>
                     <div class="form-control">
                         <input id="password" type="password" name="password" placeholder="Password">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User as UserModel;
 
 class UsersController extends Controller
 {
@@ -66,24 +67,61 @@ class UsersController extends Controller
      */
     public function update(Request $request)
     {
-        return $request->all();
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,'.auth()->id(),
-            'password' => 'sometimes|nullable|string|min:6|confirmed',
-        ]);
+        // return $request->all();
+        // $request->validate([
+        //     'name' => 'required|string|max:255',
+        //     'email' => 'required|string|email|max:255|unique:users,email,'.auth()->id(),
+        //     'password' => 'sometimes|nullable|string|min:6|confirmed',
+        // ]);
 
-        $user = auth()->user();
-        $input = $request->except('password', 'password_confirmation');
+        // $user = auth()->user();
+        // $input = $request->except('password', 'password_confirmation');
 
-        if (! $request->filled('password')) {
-            $user->fill($input)->save();
+        // if (! $request->filled('password')) {
+        //     $user->fill($input)->save();
 
-            return back()->with('success_message', 'Profile updated successfully!');
+        //     return back()->with('success_message', 'Profile updated successfully!');
+        // }
+
+        // $user->password = bcrypt($request->password);
+        // $user->fill($input)->save();
+
+
+        $email_counter = UserModel::where('email','!=',$request->input('get_email'))->where('email','=',$request->input('email'))->count();
+
+        if ($email_counter > 0) 
+        {
+             return back()->with('success_message', 'Email Already Exist!');
         }
 
-        $user->password = bcrypt($request->password);
-        $user->fill($input)->save();
+        if($request->input('password') != null)
+        {
+            if ($request->input('password') != $request->input('password_confirmation')) 
+            {
+               return back()->with('success_message', 'Password does not match!');
+            }
+        }
+
+
+        if($request->input('password') == null)
+        {
+            $data = [
+                'name' => $request->input('name'),
+                'email' => $request->input('email'),
+            ];
+        }
+
+        if ($request->input('password') != null && $request->input('password') != null) 
+        {
+            $data = [
+                'name' => $request->input('name'),
+                'email' => $request->input('email'),
+                'password' => $request->input('password'),
+            ];
+        }
+
+
+        UserModel::where('id','=',$request->input('get_id'))->update($data);
 
         return back()->with('success_message', 'Profile (and password) updated successfully!');
     }

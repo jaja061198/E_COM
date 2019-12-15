@@ -20,6 +20,8 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 
+Route::get('/about-us', 'AboutUsController@index')->name('about.us');
+
 // Route::get('/', 'LandingPageController@index')->name('landing-page');
 Route::get('/shop', 'ShopController@index')->name('shop.index');
 Route::get('/shop/{product}', 'ShopController@show')->name('shop.show');

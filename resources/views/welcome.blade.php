@@ -38,7 +38,7 @@ use App\Helper\Helper;
                         <h1>{{ Helper::getHeaderText()->welcome_greet }}</h1>
                         <p>{{ Helper::getHeaderText()->welcome_msg }}</p>
                         <div class="hero-buttons">
-                            <a href="#" class="button button-white">About Us</a>
+                            <a href="{{ route('about.us') }}" class="button button-white">About Us</a>
                         </div>
                     </div> <!-- end hero-copy -->
 
