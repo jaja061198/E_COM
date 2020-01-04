@@ -53,6 +53,9 @@
             <p><strong>Save time now.</strong></p>
             <p>Creating an account will allow you to checkout faster in the future, have easy access to order history and customize your experience to suit your preferences.</p>
 
+            <br>
+            <p>Make sure you read the <a href="{{ route('terms.index') }}" style="font-weight: bold;color:blue;">Terms and Conditions</a> before creating an account.</p>
+
             {{-- &nbsp;
             <div class="spacer"></div>
             <p><strong>Loyalty Program</strong></p>

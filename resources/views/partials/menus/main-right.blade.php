@@ -6,6 +6,15 @@
     <li><a href="{{ route('register') }}">Sign Up</a></li>
     <li><a href="{{ route('login') }}">Login</a></li>
     @else
+
+    <li>
+        <a href="{{ route('terms.index') }}">Terms And Conditions</a>
+    </li>
+
+    <li>
+        <a href="{{ route('payment.guide.index') }}">Payment Guide</a>
+    </li>
+
     <li>
         <a href="{{ route('users.edit') }}">My Account</a>
     </li>

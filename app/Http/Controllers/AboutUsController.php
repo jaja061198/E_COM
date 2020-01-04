@@ -7,6 +7,7 @@ use App\Category;
 use Illuminate\Http\Request;
 use App\Http\Models\ItemType as ItemTypeModel;
 use App\Http\Models\Item as ItemModel;
+use App\Http\Models\About as AboutModel;
 
 class AboutUsController extends Controller
 {
@@ -17,7 +18,8 @@ class AboutUsController extends Controller
      */
     public function index()
     {
-        return view('abouts-us');
+        return view('abouts-us')
+        ->with('items',AboutModel::first());
     }
 
 

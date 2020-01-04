@@ -3,8 +3,10 @@
         <div>
             {{ $slot }}
         </div>
-        <div>
-            @include('partials.search')
-        </div>
+        @if(Request::route()->getName() == 'shop.index')
+	        <div>
+	            @include('partials.search')
+	        </div>
+        @endif
     </div>
 </div> <!-- end breadcrumbs -->

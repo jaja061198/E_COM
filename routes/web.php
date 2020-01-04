@@ -22,8 +22,15 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/about-us', 'AboutUsController@index')->name('about.us');
 
+Route::get('/terms-&-conditions', 'TermsController@index')->name('terms.index');
+
 // Route::get('/', 'LandingPageController@index')->name('landing-page');
+Route::get('/services', 'ShopController@serviceIndex')->name('services.index');
+
+Route::get('/services/filter/{filter}', 'ShopController@filterIndex')->name('filter.services.index');
+
 Route::get('/shop', 'ShopController@index')->name('shop.index');
+
 Route::get('/shop/{product}', 'ShopController@show')->name('shop.show');
 Route::get('/cart', 'CartController@index')->name('cart.index');
 Route::post('/cart/store/item', 'CartController@store')->name('cart.store');
@@ -51,4 +58,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/my-profile', 'UsersController@update')->name('users.update');
     Route::get('/my-orders', 'OrdersController@index')->name('orders.index');
     Route::get('/my-orders/{order}', 'OrdersController@show')->name('orders.show');
+
+	Route::get('/payment-guide', 'PaymentGuideController@index')->name('payment.guide.index');
+
 });

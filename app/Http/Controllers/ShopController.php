@@ -7,6 +7,7 @@ use App\Category;
 use Illuminate\Http\Request;
 use App\Http\Models\ItemType as ItemTypeModel;
 use App\Http\Models\Item as ItemModel;
+use App\Http\Models\Services as ServiceModel;
 
 class ShopController extends Controller
 {
@@ -15,6 +16,35 @@ class ShopController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function serviceIndex()
+    {
+        return view('services')
+        ->with([
+            'items' => ServiceModel::all(),
+        ]);
+    }
+
+    public function filterIndex($filter)
+    {
+        if($filter == 'low')
+        {
+            return view('services')
+            ->with([
+                'items' => ServiceModel::orderBy('STANDARD_COST','ASC')->get(),
+            ]);
+        }
+
+        if($filter == 'high')
+        {
+            return view('services')
+            ->with([
+                'items' => ServiceModel::orderBy('STANDARD_COST','DESC')->get(),
+            ]);
+        }
+        
+    }
+
     public function index()
     {
         return view('shop')
