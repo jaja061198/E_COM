@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User as UserModel;
+use App\Shipping as ShippingModel;
 
 class UsersController extends Controller
 {
@@ -56,7 +57,7 @@ class UsersController extends Controller
      */
     public function edit()
     {
-        return view('my-profile')->with('user', auth()->user());
+        return view('my-profile')->with('user', auth()->user())->with('shipping',ShippingModel::all());
     }
 
     /**

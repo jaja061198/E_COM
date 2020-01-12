@@ -34,6 +34,7 @@ Route::get('/shop', 'ShopController@index')->name('shop.index');
 Route::get('/shop/{product}', 'ShopController@show')->name('shop.show');
 Route::get('/cart', 'CartController@index')->name('cart.index');
 Route::post('/cart/store/item', 'CartController@store')->name('cart.store');
+Route::post('/cart/store/shipping', 'CartController@shipping')->name('cart.ship');
 Route::post('/cart/update/quantity', 'CartController@update')->name('cart.update');
 Route::get('/cart/delete/{product}', 'CartController@destroy')->name('cart.destroy');
 // Route::post('/cart/switchToSaveForLater/{product}', 'CartController@switchToSaveForLater')->name('cart.switchToSaveForLater');
@@ -56,9 +57,36 @@ Route::get('/search', 'ShopController@search')->name('search');
 Route::middleware('auth')->group(function () {
     Route::get('/my-profile', 'UsersController@edit')->name('users.edit');
     Route::post('/my-profile', 'UsersController@update')->name('users.update');
+    
     Route::get('/my-orders', 'OrdersController@index')->name('orders.index');
     Route::get('/my-orders/{order}', 'OrdersController@show')->name('orders.show');
+
+    Route::get('/my-orders-shipping', 'OrdersController@shipping')->name('orders.shipping');
+
+    Route::get('/my-orders-shipping-received', 'OrdersController@received')->name('orders.received');
+
+    Route::get('/my-orders-shipping-pickup', 'OrdersController@pickup')->name('orders.pickup');
+
+    Route::get('/my-orders-completed', 'OrdersController@complete')->name('orders.complete');
+
+    Route::get('/my-orders-cancelled', 'OrdersController@cancel')->name('orders.cancel');
+
+    Route::get('/my-orders-change-status/{id}/{action}', 'OrdersController@changeStatus')->name('orders.change.status');
+
+    Route::get('/my-orders-payment', 'PaymentsController@index')->name('payment.index');
+    Route::post('/my-orders-payment', 'PaymentsController@store')->name('payment.post');
+    Route::get('/my-orders-payment/{order}', 'PaymentsController@show')->name('payment.show');
 
 	Route::get('/payment-guide', 'PaymentGuideController@index')->name('payment.guide.index');
 
 });
+
+// 0 = New
+// 1 = Cancelled
+// 2 = For Payment
+// 3 = Reveiwing of Payment
+// 4 = To Pickup if ( Store pickup )
+// 5 = To receive 
+// 6 = To Ship
+// 7 = Completed
+// 8 = for invoice

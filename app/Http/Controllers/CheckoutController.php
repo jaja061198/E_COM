@@ -18,6 +18,9 @@ use Cartalyst\Stripe\Exception\CardErrorException;
 use App\Http\Models\OrderHeader as OrderHeaderModel;
 use App\Http\Models\OrderDetail as OrderDetailModel;
 use App\Http\Models\Cart as CartModel;
+use App\Shipping as ShippingModel;
+use App\User as UserModel;
+use App\OrderLog as OrderLogModel;
 
 class CheckoutController extends Controller
 {
@@ -28,11 +31,30 @@ class CheckoutController extends Controller
      */
     public function index()
     {
+
+        
+        $check_ship_payment = CartModel::where('user_id','=',Auth::user()->id)->first();
+
+        $get_current_ship_price = 0;
+
+        if ($check_ship_payment->ship_type == '1') 
+        {
+            $get_user_shipping_info = UserModel::where('id','=',Auth::user()->id)->first();
+
+            $get_shipping_info = ShippingModel::where('id','=',$get_user_shipping_info->area)->first();
+
+            $get_current_ship_price = $get_shipping_info->price;
+        }
+
+
         $or = $this->generateCode();
+
         $header = [
             'order_no' => $or,
             'user' => Auth::user()->id,
             'status' => 0,
+            'type' => $check_ship_payment->ship_type,
+            'shipping_price' => $get_current_ship_price,
             'date_ordered' => date('Y-m-d'),
         ];
 
@@ -56,6 +78,13 @@ class CheckoutController extends Controller
         }
 
         CartModel::where('user_id','=',Auth::user()->id)->delete();
+
+        $order_log = [
+            'order_no' => $or,
+            'action' => 'Order was created',
+        ];
+
+        OrderLogModel::insert($order_log);
 
         return back();
     }

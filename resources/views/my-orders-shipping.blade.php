@@ -41,10 +41,10 @@
 
             <ul>
               <li><a href="{{ route('users.edit') }}">My Profile</a></li>
-              <li class="active"><a href="{{ route('orders.index') }}">Pending Orders</a> <font style="color: red;">({{ OrdersController::countOrders(0) }})</font></li>
+              <li><a href="{{ route('orders.index') }}">Pending Orders</a> <font style="color: red;">({{ OrdersController::countOrders(0) }})</font></li>
               <li><a href="{{ route('payment.index') }}">For Payment</a> <font style="color: red;">({{ OrdersController::countOrders(2) }})</font></li>
               <li><a href="{{ route('orders.pickup') }}">For Store Pickup</a> <font style="color: red;">({{ OrdersController::countOrders(4) }})</font></li>
-              <li><a href="{{ route('orders.shipping') }}">For Shipping</a> <font style="color: red;">({{ OrdersController::countOrders(6) }})</font></li>
+              <li class="active"><a href="#">For Shipping</a> <font style="color: red;">({{ OrdersController::countOrders(6) }})</font></li>
               <li><a href="{{ route('orders.received') }}">To Receive</a> <font style="color: red;">({{ OrdersController::countOrders(5) }})</font></li>
               <li><a href="{{ route('orders.complete') }}">Completed</a> <font style="color: red;">({{ OrdersController::countOrders(7) }})</font></li>
               <li><a href="{{ route('orders.cancel') }}">Cancelled Order</a> <font style="color: red;">({{ OrdersController::countOrders(1) }})</font></li>
@@ -52,7 +52,7 @@
         </div> <!-- end sidebar -->
         <div class="my-profile">
             <div class="products-header">
-                <h1 class="stylish-heading">My Orders</h1>
+                <h1 class="stylish-heading">My Orders for shipping</h1>
             </div>
 
             <div>
@@ -76,7 +76,7 @@
                             <div class="order-header-items">
                                 <div><a href="{{ route('orders.show',['order' => str_replace("#","w",$order->order_no)]) }}">Order Details</a></div>
                                 <div>|</div>
-                                <div><b style="color:red;">PENDING</b></div>
+                                <div><b style="color:red;">FOR SHIPPING</b></div>
                                 {{-- <div><a href="#">Invoice</a></div> --}}
                             </div>
                         </div>

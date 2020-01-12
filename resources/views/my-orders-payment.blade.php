@@ -1,6 +1,5 @@
 @php
     use App\Helper\Helper;
-    use App\Http\Controllers\OrdersController;
 @endphp
 @extends('layout')
 
@@ -41,13 +40,13 @@
 
             <ul>
               <li><a href="{{ route('users.edit') }}">My Profile</a></li>
-              <li class="active"><a href="{{ route('orders.index') }}">Pending Orders</a> <font style="color: red;">({{ OrdersController::countOrders(0) }})</font></li>
-              <li><a href="{{ route('payment.index') }}">For Payment</a> <font style="color: red;">({{ OrdersController::countOrders(2) }})</font></li>
-              <li><a href="{{ route('orders.pickup') }}">For Store Pickup</a> <font style="color: red;">({{ OrdersController::countOrders(4) }})</font></li>
-              <li><a href="{{ route('orders.shipping') }}">For Shipping</a> <font style="color: red;">({{ OrdersController::countOrders(6) }})</font></li>
-              <li><a href="{{ route('orders.received') }}">To Receive</a> <font style="color: red;">({{ OrdersController::countOrders(5) }})</font></li>
-              <li><a href="{{ route('orders.complete') }}">Completed</a> <font style="color: red;">({{ OrdersController::countOrders(7) }})</font></li>
-              <li><a href="{{ route('orders.cancel') }}">Cancelled Order</a> <font style="color: red;">({{ OrdersController::countOrders(1) }})</font></li>
+              <li><a href="{{ route('orders.index') }}">My Orders</a></li>
+              <li  class="active"><a href="{{ route('payment.index') }}">For Payment</a></li>
+              <li><a href="{{ route('payment.index') }}">For Store Pickup</a> <font style="color: red;">({{ OrdersController::countOrders(4) }})</font></li>
+              <li><a href="{{ route('payment.index') }}">For Shipping</a> <font style="color: red;">({{ OrdersController::countOrders(6) }})</font></li>
+              <li><a href="{{ route('payment.index') }}">To Receive</a> <font style="color: red;">({{ OrdersController::countOrders(5) }})</font></li>
+              <li><a href="{{ route('payment.index') }}">Completed</a> <font style="color: red;">({{ OrdersController::countOrders(7) }})</font></li>
+              <li><a href="{{ route('payment.index') }}">Cancelled Order</a> <font style="color: red;">({{ OrdersController::countOrders(8) }})</font></li>
             </ul>
         </div> <!-- end sidebar -->
         <div class="my-profile">

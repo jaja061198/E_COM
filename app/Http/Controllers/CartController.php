@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Models\ItemType as ItemTypeModel;
 use App\Http\Models\Item as ItemModel;
 use App\Http\Models\Cart as CartModel;
+use App\Shipping as ShippingModel;
+use App\User as UserModel;
+use App\OrderLog as OrderLogModel;
 
 class CartController extends Controller
 {
@@ -24,12 +27,33 @@ class CartController extends Controller
 
         $cart_count = CartModel::where('user_id','=',Auth::user()->id)->get();
 
+        $ship_type = CartModel::where('user_id','=',Auth::user()->id)->where('ship_type','=','1')->count();
+
         $cart_counter = CartModel::where('user_id','=',Auth::user()->id)->sum('quantity');
+
+        $ship_id = '2';
+
+        $ship_value = 0;
+
+        if ($ship_type > 0) 
+        {
+            $ship_type_id = CartModel::where('user_id','=',Auth::user()->id)->where('ship_type','=','1')->first();
+
+            $ship_details = ShippingModel::where('id','=',$ship_type_id->ship_type)->first();
+
+            $ship_id = $ship_type_id->ship_type;
+
+            $ship_value = $ship_details['price'];
+
+        }
 
         return view('cart')->with([
             'mightAlsoLike' => $mightAlsoLike,
             'cart_items' => $cart_count,
             'counter' => $cart_counter,
+            'shipping_fee' => $ship_value,
+            'ship_type' => $ship_id,
+            'ship_counter' => $ship_type,
         ]);
     }
 
@@ -41,6 +65,14 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {   
+
+        $check_address = UserModel::where('id','=',Auth::user()->id)->first();
+
+        if ($check_address->area == null || $check_address->area == 0) 
+        {
+            # code...
+            return redirect()->route('users.edit')->withErrors('Please Set up your shipping information first');
+        }
         $duplicates = CartModel::where('item_code','=',$request->input('item'))->where('user_id','=',Auth::user()->id)->count();
 
         if ($duplicates > 0) {
@@ -51,6 +83,7 @@ class CartController extends Controller
             'user_id' => Auth::user()->id,
             'item_code' => $request->input('item'),
             'quantity' => 1,
+            'ship_type' => '1',
         ];
 
         CartModel::insert($cart);
@@ -134,5 +167,12 @@ class CartController extends Controller
             ->associate('App\Product');
 
         return redirect()->route('cart.index')->with('success_message', 'Item has been Saved For Later!');
+    }
+
+    public function shipping(Request $request)
+    {
+        CartModel::where('user_id','=',Auth::user()->id)->update(['ship_type' => $request->input('ship')]);
+
+        return back()->with('success_message', 'Item has been removed!');
     }
 }
