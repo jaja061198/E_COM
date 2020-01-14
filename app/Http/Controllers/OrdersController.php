@@ -191,8 +191,8 @@ class OrdersController extends Controller
     public static function countOrders($status)
     {
         if ($status == '2' || $status == '3') {
-            return OrderHeaderModel::where('status','=','2')->orWhere('status','=','3')->count();
+            return OrderHeaderModel::where('user','=',Auth::user()->id)->where('status','=','2')->orWhere('user','=',Auth::user()->id)->where('status','=','3')->count();
         }
-        return OrderHeaderModel::where('status','=',$status)->count();
+        return OrderHeaderModel::where('status','=',$status)->where('user','=',Auth::user()->id)->count();
     }
 }

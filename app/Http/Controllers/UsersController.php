@@ -109,6 +109,9 @@ class UsersController extends Controller
             $data = [
                 'name' => $request->input('name'),
                 'email' => $request->input('email'),
+                'address' => $request->input('address'),
+                'area' => $request->input('area'),
+                'phone_no' => $request->input('phone'),
             ];
         }
 
@@ -118,6 +121,9 @@ class UsersController extends Controller
                 'name' => $request->input('name'),
                 'email' => $request->input('email'),
                 'password' => $request->input('password'),
+                'address' => $request->input('address'),
+                'area' => $request->input('area'),
+                'phone_no' => $request->input('phone'),
             ];
         }
 

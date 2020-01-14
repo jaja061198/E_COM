@@ -82,7 +82,7 @@
                     </div>
 
                     <div class="form-control">
-                        <select style="width: 599px;border-radius: 5px; border:1px solid black; height: 50px;">
+                        <select style="width: 599px;border-radius: 5px; border:1px solid black; height: 50px;" name="area" required>
                             <option value="" selected disabled>Area</option>
                             @foreach($shipping as $key => $value)
                                 <option value="{{ $value['id'] }}" @if($user->area == $value['id']) selected @endif>{{ $value['area'] }}</option>
@@ -91,11 +91,11 @@
                     </div>
 
                     <div class="form-control">
-                        <input id="address" type="text" name="name" value="{{ $user->address }}" placeholder="Address" required>
+                        <input id="address" type="text" name="address" value="{{ $user->address }}" placeholder="Address" required>
                     </div>
 
                     <div class="form-control">
-                        <input id="phone" type="text" name="name" value="" placeholder="Phone" required>
+                        <input id="phone" type="text" name="phone" placeholder="Phone" required value="{{ $user->phone_no }}">
                     </div>
 
                     <div>

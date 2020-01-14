@@ -52,7 +52,7 @@
         </div> <!-- end sidebar -->
         <div class="my-profile">
             <div class="products-header">
-                <h1 class="stylish-heading">My Orders</h1>
+                <h1 class="stylish-heading">My Cancelled Orders</h1>
             </div>
 
             <div>
