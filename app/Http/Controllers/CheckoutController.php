@@ -56,6 +56,9 @@ class CheckoutController extends Controller
             'type' => $check_ship_payment->ship_type,
             'shipping_price' => $get_current_ship_price,
             'date_ordered' => date('Y-m-d'),
+            'area' => Auth::user()->area,
+            'zip' => Auth::user()->zip,
+            'address' => Auth::user()->address
         ];
 
 

@@ -95,6 +95,10 @@
                     </div>
 
                     <div class="form-control">
+                        <input id="phone" type="text" name="zip" placeholder="Zip Code" required value="{{ $user->zip }}">
+                    </div>
+
+                    <div class="form-control">
                         <input id="phone" type="text" name="phone" placeholder="Phone" required value="{{ $user->phone_no }}">
                     </div>
 
