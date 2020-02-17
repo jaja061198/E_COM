@@ -95,11 +95,11 @@
                     </div>
 
                     <div class="form-control">
-                        <input id="phone" type="text" name="zip" placeholder="Zip Code" required value="{{ $user->zip }}">
+                        <input id="zip" type="text" name="zip" placeholder="Zip Code" required value="{{ $user->zip }}">
                     </div>
 
                     <div class="form-control">
-                        <input id="phone" type="text" name="phone" placeholder="Phone" required value="{{ $user->phone_no }}">
+                        <input id="phone" type="text" name="phone" placeholder="Phone" required value="{{ $user->phone_no }}" onblur="hello()">
                     </div>
 
                     <div>
@@ -113,6 +113,55 @@
         </div>
     </div>
 
+<script>
+    function hello()
+    {
+        var old_value = document.getElementById('phone').value;
+
+        var Regex = /^[0-9]+$/;
+
+        if(document.getElementById('phone').value.length < 11)
+        {
+            alert('Invalid Length');
+
+            document.getElementById('phone').value = "";
+
+            return false;
+
+        }
+
+        // if(Regex.test(old_value))
+        // {
+        //     alert('Invalid Characters');
+
+        //     document.getElementById('phone').value = "";
+
+        //     return false;
+        // }
+
+        var prefix = "+(639) ";
+
+        var first_five = document.getElementById('phone').value.substr(2,5);
+
+        var last_four = document.getElementById('phone').value.substr(7);
+
+        var complete = prefix + first_five + " " + last_four;
+        // alert(complete);
+
+        if( complete.length > 17)
+        {
+            alert('Invalid Length');
+
+            document.getElementById('phone').value = "";
+
+            return false;
+        }
+        else
+        {
+        document.getElementById('phone').value = prefix + first_five + " " + last_four;
+        }
+    }
+</script>
 @endsection
 
 @section('extra-js')
