@@ -60,6 +60,12 @@ class UsersController extends Controller
         return view('my-profile')->with('user', auth()->user())->with('shipping',ShippingModel::all());
     }
 
+    public function editShipping()
+    {
+        return view('shipping-info')->with('user', auth()->user())->with('shipping',ShippingModel::all());
+    }
+
+
     /**
      * Update the specified resource in storage.
      *

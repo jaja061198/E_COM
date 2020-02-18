@@ -53,33 +53,13 @@
         </div> <!-- end sidebar -->
         <div class="my-profile">
             <div class="products-header">
-                <h1 class="stylish-heading">My Profile</h1>
+                <h1 class="stylish-heading">Shipping Information</h1>
             </div>
 
             <div>
                 <form action="{{ route('users.update') }}" method="POST">
                     {{-- @method('patch') --}}
                     {{ csrf_field() }}
-                    <div class="form-control">
-                        <input id="name" type="text" name="name" value="{{ old('name', $user->name) }}" placeholder="Name" required>
-                        <input type="hidden" name="get_id" value="{{ $user->id }}">
-                    </div>
-                    <div class="form-control">
-                        <input id="email" type="email" name="email" value="{{ old('email', $user->email) }}" placeholder="Email" required>
-                        <input type="hidden" name="get_email" value="{{ $user->email }}">
-                    </div>
-                    <div class="form-control">
-                        <input id="password" type="password" name="password" placeholder="Password">
-                        <div>Leave password blank to keep current password</div>
-                    </div>
-                    <div class="form-control">
-                        <input id="password-confirm" type="password" name="password_confirmation" placeholder="Confirm Password">
-                    </div>
-
-
-                    <div class="products-header">
-                        <h1 class="stylish-heading">Shipping information</h1>
-                    </div>
 
                     <div class="form-control">
                         <select style="width: 599px;border-radius: 5px; border:1px solid black; height: 50px;" name="area" required>

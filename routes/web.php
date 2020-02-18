@@ -55,6 +55,10 @@ Route::get('/checkout', 'CheckoutController@index')->name('checkout.index')->mid
 Route::get('/search', 'ShopController@search')->name('search');
 // Route::get('/search-algolia', 'ShopController@searchAlgolia')->name('search-algolia');
 Route::middleware('auth')->group(function () {
+
+    Route::get('/my-profile-shipping', 'UsersController@editShipping')->name('users.shipping.edit');
+    Route::post('/my-profile-shipping', 'UsersController@updateShipping')->name('users.shipping.update');
+
     Route::get('/my-profile', 'UsersController@edit')->name('users.edit');
     Route::post('/my-profile', 'UsersController@update')->name('users.update');
     
