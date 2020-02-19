@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Session;
 use App\Product;
 use App\Category;
 use Illuminate\Http\Request;
@@ -89,6 +90,13 @@ class ShopController extends Controller
     public function show($slug)
     {
         $products = ItemModel::where('ITEM_CODE','=',$slug)->first();
+
+        if (empty($products) || $products->STATUS == '2') 
+        {
+            # code...
+
+            return back()->withErrors('Item Not found!');
+        }
 
         $mightAlsoLike = ItemModel::where('ITEM_TYPE','=',$products->ITEM_TYPE)->where('ITEM_CODE','!=',$products->ITEM_CODE)->get();
 
