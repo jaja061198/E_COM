@@ -50,7 +50,7 @@ class ShopController extends Controller
         return view('shop')
         ->with([
             'types' => ItemTypeModel::all(),
-            'items' => ItemModel::all(),
+            'items' => ItemModel::where('STATUS','=','1')->get(),
         ]);
         $pagination = 9;
         $categories = Category::all();

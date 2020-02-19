@@ -115,9 +115,6 @@ class UsersController extends Controller
             $data = [
                 'name' => $request->input('name'),
                 'email' => $request->input('email'),
-                'address' => $request->input('address'),
-                'area' => $request->input('area'),
-                'phone_no' => $request->input('phone'),
             ];
         }
 
@@ -127,9 +124,6 @@ class UsersController extends Controller
                 'name' => $request->input('name'),
                 'email' => $request->input('email'),
                 'password' => $request->input('password'),
-                'address' => $request->input('address'),
-                'area' => $request->input('area'),
-                'phone_no' => $request->input('phone'),
             ];
         }
 
@@ -137,6 +131,20 @@ class UsersController extends Controller
         UserModel::where('id','=',$request->input('get_id'))->update($data);
 
         return back()->with('success_message', 'Profile (and password) updated successfully!');
+    }
+
+    public function updateShipping(Request $request)
+    {
+        $data = [
+            'address' => $request->input('address'),
+            'zip' => $request->input('zip'),
+            'area' => $request->input('area'),
+            'phone_no' => $request->input('phone'),
+        ];
+
+        UserModel::where('id','=',$request->input('get_id'))->update($data);
+
+        return back()->with('success_message', 'Shipping Information updated successfully!');
     }
 
     /**

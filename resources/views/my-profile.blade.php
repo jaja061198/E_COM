@@ -42,6 +42,7 @@
 
             <ul>
               <li class="active"><a href="{{ route('users.edit') }}">My Profile</a></li>
+              <li><a href="{{ route('users.shipping.edit') }}">Shipping Information</a></li>
               <li><a href="{{ route('orders.index') }}">Pending Orders</a> <font style="color: red;">({{ OrdersController::countOrders(0) }})</font></li>
               <li><a href="{{ route('payment.index') }}">For Payment</a> <font style="color: red;">({{ OrdersController::countOrders(2) }})</font></li>
               <li><a href="{{ route('orders.pickup') }}">For Store Pickup</a> <font style="color: red;">({{ OrdersController::countOrders(4) }})</font></li>
@@ -74,32 +75,6 @@
                     </div>
                     <div class="form-control">
                         <input id="password-confirm" type="password" name="password_confirmation" placeholder="Confirm Password">
-                    </div>
-
-
-                    <div class="products-header">
-                        <h1 class="stylish-heading">Shipping information</h1>
-                    </div>
-
-                    <div class="form-control">
-                        <select style="width: 599px;border-radius: 5px; border:1px solid black; height: 50px;" name="area" required>
-                            <option value="" selected disabled>Area</option>
-                            @foreach($shipping as $key => $value)
-                                <option value="{{ $value['id'] }}" @if($user->area == $value['id']) selected @endif>{{ $value['area'] }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="form-control">
-                        <input id="address" type="text" name="address" value="{{ $user->address }}" placeholder="Address" required>
-                    </div>
-
-                    <div class="form-control">
-                        <input id="zip" type="text" name="zip" placeholder="Zip Code" required value="{{ $user->zip }}">
-                    </div>
-
-                    <div class="form-control">
-                        <input id="phone" type="text" name="phone" placeholder="Phone" required value="{{ $user->phone_no }}" onblur="hello()">
                     </div>
 
                     <div>

@@ -41,7 +41,8 @@
         <div class="sidebar">
 
             <ul>
-              <li class="active"><a href="{{ route('users.edit') }}">My Profile</a></li>
+              <li><a href="{{ route('users.edit') }}">My Profile</a></li>
+              <li class="active"><a href="{{ route('users.shipping.edit') }}">Shipping Information</a></li>
               <li><a href="{{ route('orders.index') }}">Pending Orders</a> <font style="color: red;">({{ OrdersController::countOrders(0) }})</font></li>
               <li><a href="{{ route('payment.index') }}">For Payment</a> <font style="color: red;">({{ OrdersController::countOrders(2) }})</font></li>
               <li><a href="{{ route('orders.pickup') }}">For Store Pickup</a> <font style="color: red;">({{ OrdersController::countOrders(4) }})</font></li>
@@ -57,7 +58,7 @@
             </div>
 
             <div>
-                <form action="{{ route('users.update') }}" method="POST">
+                <form action="{{ route('users.shipping.update') }}" method="POST">
                     {{-- @method('patch') --}}
                     {{ csrf_field() }}
 
@@ -68,6 +69,7 @@
                                 <option value="{{ $value['id'] }}" @if($user->area == $value['id']) selected @endif>{{ $value['area'] }}</option>
                             @endforeach
                         </select>
+                        <input type="hidden" name="get_id" value="{{ $user->id }}">
                     </div>
 
                     <div class="form-control">
@@ -100,6 +102,15 @@
 
         var Regex = /^[0-9]+$/;
 
+        if(document.getElementById('phone').value.length == 0)
+        {
+
+            document.getElementById('phone').value = "";
+
+            return false;
+
+        }
+
         if(document.getElementById('phone').value.length < 11)
         {
             alert('Invalid Length');
@@ -130,7 +141,12 @@
 
         if( complete.length > 17)
         {
-            alert(complete.length);
+
+            if(complete.substr(0,6) == "+(639)")
+            {
+                return false;
+            }
+            alert('Invalid Length');
 
             document.getElementById('phone').value = "";
 
@@ -138,7 +154,7 @@
         }
         else
         {
-        document.getElementById('phone').value = prefix + first_five + " " + last_four;
+            document.getElementById('phone').value = prefix + first_five + " " + last_four;
         }
     }
 </script>

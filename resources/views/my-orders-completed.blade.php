@@ -41,6 +41,7 @@
 
             <ul>
               <li><a href="{{ route('users.edit') }}">My Profile</a></li>
+              <li><a href="{{ route('users.shipping.edit') }}">Shipping Information</a></li>
               <li ><a href="{{ route('orders.index') }}">Pending Orders</a> <font style="color: red;">({{ OrdersController::countOrders(0) }})</font></li>
               <li><a href="{{ route('payment.index') }}">For Payment</a> <font style="color: red;">({{ OrdersController::countOrders(2) }})</font></li>
               <li><a href="{{ route('orders.pickup') }}">For Store Pickup</a> <font style="color: red;">({{ OrdersController::countOrders(4) }})</font></li>

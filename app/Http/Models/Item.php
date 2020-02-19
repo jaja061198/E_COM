@@ -26,6 +26,6 @@ class Item extends Model
 
     public static function getItems()
     {
-        return Item::all()->random(4);
+        return Item::where('STATUS','=','1')->get()->random(4);
     }
 }
